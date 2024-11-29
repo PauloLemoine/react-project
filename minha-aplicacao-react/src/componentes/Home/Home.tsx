@@ -1,10 +1,17 @@
-function Home (){
-    return (
-    <div>
-        <h1>Olá, Mundo!</h1>
-        <h2>Aqui será a página Home</h2>
+import useAuthRedirect from '../../utils/useAuthRedirect';
+import Clock from '../Clock/Clock';
+import Navbar from '../Nav/Nav';
+import './Home.css';
+function Home() {
+  useAuthRedirect();
+
+  return (
+    <div className='homeContainer'>
+      <Navbar />
+      <h1 className='homeTitle'>Ponto</h1>
+      <Clock />
     </div>
- ) ; 
+  );
 }
 
 export default Home;

@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
-import './Login.css';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
-import logo from '../../imgs/image 6.png';
-import { useNavigate } from 'react-router-dom';
-import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import React, { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
+import logo from '../../imgs/image 6.png';
+import useAuthRedirect from '../../utils/useAuthRedirect';
+import './Login.css';
 
 interface LoginForm {
   email: string;
   senha: string;
 }
 
-
 const schema = yup.object().shape({
-  email: yup.string().email('E-mail inválido').required('O e-mail é obrigatório'),
+  email: yup
+    .string()
+    .email('E-mail inválido')
+    .required('O e-mail é obrigatório'),
   senha: yup.string().required('A senha é obrigatória'),
 });
 
@@ -22,16 +25,31 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginForm>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<LoginForm> = (data) => {
-    const storedUser = localStorage.getItem('usuario');
-    if (storedUser) {
-      const { email: storedEmail, senha: storedSenha } = JSON.parse(storedUser);
+  useAuthRedirect();
 
-      if (data.email === storedEmail && data.senha === storedSenha) {
+  const onSubmit: SubmitHandler<LoginForm> = (data) => {
+    // Recupera os usuários cadastrados do localStorage
+    const storedUsers = localStorage.getItem('registeredUsers');
+    if (storedUsers) {
+      const usersArray = JSON.parse(storedUsers);
+
+      // Verifica se o email e a senha conferem com algum usuário cadastrado
+      const user = usersArray.find(
+        (user: { email: string; senha: string }) =>
+          user.email === data.email && user.senha === data.senha
+      );
+
+      if (user) {
+        // Salva o usuário logado no localStorage
+        localStorage.setItem('loggedUser', JSON.stringify(user));
         alert('Login realizado com sucesso!');
         navigate('/home');
       } else {
@@ -44,43 +62,47 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <img src={logo} alt="Logo da Empresa" className="logo" />
-      <div className="login-container">
+      <img src={logo} alt='Logo da Empresa' className='logo' />
+      <div className='login-container'>
         <h1>Login</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="form-group">
+          <div className='form-group'>
             <label>E-mail</label>
             <input
-              type="email"
-              placeholder="Digite seu email"
+              type='email'
+              placeholder='Digite seu email'
               {...register('email')}
               className={errors.email ? 'input-error' : ''}
             />
-            {errors.email && <p className="error-message">{errors.email.message}</p>}
+            {errors.email && (
+              <p className='error-message'>{errors.email.message}</p>
+            )}
           </div>
 
-          <div className="form-group">
+          <div className='form-group'>
             <label>Senha</label>
-            <div className="password-field">
+            <div className='password-field'>
               <input
                 type={showPassword ? 'text' : 'password'}
-                placeholder="Digite sua senha"
+                placeholder='Digite sua senha'
                 {...register('senha')}
                 className={errors.senha ? 'input-error' : ''}
               />
               <button
-                type="button"
-                className="toggle-password"
+                type='button'
+                className='toggle-password'
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <FiEyeOff /> : <FiEye />}
               </button>
             </div>
-            {errors.senha && <p className="error-message">{errors.senha.message}</p>}
+            {errors.senha && (
+              <p className='error-message'>{errors.senha.message}</p>
+            )}
           </div>
 
-          <a 
-            className="forgot-password" 
+          <a
+            className='forgot-password'
             onClick={(e) => {
               e.preventDefault();
               navigate('/esqueci-minha-senha');
@@ -89,12 +111,14 @@ const Login: React.FC = () => {
             Esqueci minha senha
           </a>
 
-          <button type="submit" className="btn-login">Entrar</button>
+          <button type='submit' className='btn-login'>
+            Entrar
+          </button>
         </form>
 
-        <div className="divider">ou</div>
-        <p className="possui-conta">Não tem conta?</p>
-        <button className="btn-cadastro" onClick={() => navigate('/cadastro')}>
+        <div className='divider'>ou</div>
+        <p className='possui-conta'>Não tem conta?</p>
+        <button className='btn-cadastro' onClick={() => navigate('/cadastro')}>
           Cadastre-se
         </button>
       </div>
@@ -103,5 +127,3 @@ const Login: React.FC = () => {
 };
 
 export default Login;
-
-

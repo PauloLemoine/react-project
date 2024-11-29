@@ -1,0 +1,116 @@
+.painelHorariosContainer {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  place-items: center;
+}
+
+.painelHorariosTitle {
+  font-size: 6rem;
+}
+
+.painelHorariosTable {
+  width: 80%;
+  border-collapse: collapse;
+  margin-top: 40px;
+  font-size: 1.6rem;
+}
+
+.painelHorariosTable th,
+.painelHorariosTable td {
+  padding: 10px;
+  text-align: left;
+}
+
+.painelHorariosTable th {
+  font-weight: bold;
+}
+
+.painelHorariosTable tr:not(:first-child) {
+  border-top: 1px solid #000;
+}
+
+.clear-user-agent-styles table,
+.clear-user-agent-styles thead,
+.clear-user-agent-styles tbody,
+.clear-user-agent-styles tfoot,
+.clear-user-agent-styles tr,
+.clear-user-agent-styles th,
+.clear-user-agent-styles td {
+  display: block;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-collapse: inherit;
+  border-spacing: 0;
+  border-color: inherit;
+  text-align: left;
+  font-weight: inherit;
+  -webkit-border-horizontal-spacing: 0;
+  -webkit-border-vertical-spacing: 0;
+}
+.clear-user-agent-styles th,
+.clear-user-agent-styles td {
+  display: inline;
+}
+
+/* form */
+.form-edicao {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.form-edicao input {
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 1.4rem;
+}
+
+.form-edicao button {
+  padding: 10px 20px;
+  font-size: 1.4rem;
+  margin: 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.btn-salvar {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-cancelar {
+  background-color: #dc3545;
+  color: white;
+}
+
+.painelHorariosTable .btn-editar,
+.painelHorariosTable .btn-excluir {
+  margin-right: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.painelHorariosTable .btn-editar {
+  background-color: #007bff;
+  color: white;
+}
+
+.painelHorariosTable .btn-excluir {
+  background-color: #dc3545;
+  color: white;
+}
+
+.painelHorariosTable .btn-editar:hover,
+.painelHorariosTable .btn-excluir:hover {
+  opacity: 0.8;
+}
